@@ -5,6 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital@1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>Weather Dashboard</title>
 </head>
@@ -12,16 +15,61 @@
     <header>Weather Dashboard</header>
 
     <section class='container'>
-        <section class="row">
+        <section class="citiesDisplay">
             <section class="search">
+                <div id="cityTitle">Search for a City:</div>
+                <form action="" class="searchbar">
+                    <input for="" id="inputSearch"></input>  
+                    <button id="searchBtn">search</button> 
+                </form>  
+                <div id="addCity">Austin</div>
             </section>
 
-            <section class="column">
-                <section class="currentWeather">
-                </section>
+            <section class="weatherDisplay">
+                <div class="currentWeather">
+                    <p id="temp">Temp: 74.01</p>
+                    <p id="wind">Wind: 6.67</p>
+                    <p id="humidity">Humidity: 46%</p>
+                    <p id="UVIndex">UV Index: 0.47</p>
+                </div>
 
-                <section class="forecast">
-                </section>
+                <div class="forecast">
+                    <div class="forecastCard" id="firstForecast">
+                        <p class="forecastDate">03/31/2021</p>
+                        <i class="forecastIcon">:D</i>
+                        <p class="forcastTemp">73.72</p>  
+                        <p class="forcastWind">9.53mph</p>  
+                        <p class="forcastHumidity">66%</p>  
+                    </div>
+                    <div class="forecastCard" id="secondForecast">
+                        <p class="forecastDate">03/31/2021</p>
+                        <i class="forecastIcon">:D</i>
+                        <p class="forcastTemp">73.72</p>  
+                        <p class="forcastWind">9.53mph</p>  
+                        <p class="forcastHumidity">66%</p>  
+                    </div>
+                    <div class="forecastCard" id="thirdForecast">
+                        <p class="forecastDate">03/31/2021</p>
+                        <i class="forecastIcon">:D</i>
+                        <p class="forcastTemp">73.72</p>  
+                        <p class="forcastWind">9.53mph</p>  
+                        <p class="forcastHumidity">66%</p>  
+                    </div>
+                    <div class="forecastCard" id="fourthForecast">
+                        <p class="forecastDate">03/31/2021</p>
+                        <i class="forecastIcon">:D</i>
+                        <p class="forcastTemp">73.72</p>  
+                        <p class="forcastWind">9.53mph</p>  
+                        <p class="forcastHumidity">66%</p>  
+                    </div>
+                    <div class="forecastCard" id="fifthForecast">
+                        <p class="forecastDate">03/31/2021</p>
+                        <i class="forecastIcon">:D</i>
+                        <p class="forcastTemp">73.72</p>  
+                        <p class="forcastWind">9.53mph</p>  
+                        <p class="forcastHumidity">66%</p>  
+                    </div>
+                </div>
             </section>
         </section>
 
