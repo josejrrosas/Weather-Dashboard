@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
     margin: 0px;
-    padding: 5px;
+    padding: 0px;
 }
 
 body{
@@ -33,7 +33,6 @@ header{
     display: flex;
     flex-direction: column;
     border: 1px blue solid;
-
 }
 
 .search{
@@ -53,4 +52,9 @@ header{
     border: 1px green solid;
     display: flex;
     flex-direction: row;
+}
+
+img{
+    width: fit-content;
+    height: auto;
 }
