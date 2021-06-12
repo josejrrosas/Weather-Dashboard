@@ -19,12 +19,14 @@
     <section class='container'>
         <section class="citiesDisplay">
             <section class="search">
-                <div id="cityTitle">Search for a City:</div>
-                <form action="" class="searchbar">
+                <form action="" class="searchbar" id="cityForm">
+                    <label for="city-text">Add a City: </label>
                     <input type="text" id="inputSearch"></input>  
                     <button id="searchBtn">search</button> 
                 </form>  
-                <div id="addCity"></div>
+                <div id="addCity">
+                    <ul id ="cityList"></ul>
+                </div>
             </section>
 
             <section class="weatherDisplay">

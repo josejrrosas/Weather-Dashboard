@@ -1,6 +1,8 @@
 var searchInputEl = document.getElementById('inputSearch');
 var searchButtonEl = document.getElementById('searchBtn');
 var addCityEl = document.getElementById('addCity');
+var cityListEl = document.getElementById('cityList');
+
 
 var currentSettingEl = document.querySelector('#currentSetting');
 var currentWeatherEl = document.getElementsByClassName('currentWeather');
@@ -24,6 +26,7 @@ $("img").hide();
 searchButtonEl.addEventListener('click', function (event) {
     event.preventDefault()
     $("img").show();
+
     fetch('https://api.openweathermap.org/data/2.5/weather?q=' + searchInputEl.value + '&appid=e55d093b8b969691fea4b7cda7ecf344')
         .then(response => response.json())
         .then(data => {
@@ -68,11 +71,74 @@ searchButtonEl.addEventListener('click', function (event) {
                         forecastWindEl.item(i).innerHTML = windValueDaily;
                         forecastHumidityEl.item(i).innerHTML = humidityValueDaily;
                     }
-
-                    console.log(data);
                 })
-
             })
         .catch(err => alert("Wrong city name!"));
+
+        cityForm();
 })
 
+var cities = [];
+
+// The following function renders items in a todo list as <li> elements
+function renderCities() {
+  cityListEl.innerHTML = "";
+
+  for (var i = 0; i < cities.length; i++) {
+    var city = cities[i];
+
+    var li = document.createElement("li");
+    li.textContent = city;
+    li.setAttribute("data-index", i);
+
+    var button = document.createElement("button");
+    button.textContent = "Delete";
+
+    li.appendChild(button);
+    cityListEl.appendChild(li);
+  }
+}
+
+// This function is being called below and will run when the page loads.
+function init() {
+  var storedCities = JSON.parse(localStorage.getItem("cities"));
+
+  if (storedCities !== null) {
+    cities = storedCities;
+  }
+
+  renderCities();
+}
+
+  // Stringify and set key in localStorage to todos array
+function storeCities() {
+  localStorage.setItem("cities", JSON.stringify(cities));
+}
+
+//  // Add new cities to cities array, clear the input
+function cityForm() {
+  var cityText = searchInputEl.value.trim();
+  if (cityText === "") {
+    return;
+  }
+  cities.push(cityText);
+  searchInputEl.value = "";
+  
+  storeCities();
+  renderCities();
+};
+
+// Add click event to cityList element
+cityList.addEventListener("click", function(event) {
+  var element = event.target;
+
+  if (element.matches("button") === true) {
+    var index = element.parentElement.getAttribute("data-index");
+    cities.splice(index, 1);
+
+    storeCities();
+    renderCities();
+  }
+});
+
+init()
