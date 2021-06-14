@@ -21,11 +21,13 @@ var forecastHumidityEl = document.getElementsByClassName('forecastHumidity');
 var forecastCardEl = document.getElementsByClassName('forecastCard');
 
 var myKey = 'e55d093b8b969691fea4b7cda7ecf344';
-$("img").hide();
+$(".weatherDisplay").hide();
+$(".forecast").hide();
 
 searchButtonEl.addEventListener('click', function (event) {
     event.preventDefault()
-    $("img").show();
+    $(".weatherDisplay").show();
+    $(".forecast").show();
 
     fetch('https://api.openweathermap.org/data/2.5/weather?q=' + searchInputEl.value + '&appid=e55d093b8b969691fea4b7cda7ecf344')
         .then(response => response.json())
@@ -43,16 +45,19 @@ searchButtonEl.addEventListener('click', function (event) {
                     var tempValue ='Temperature: ' +  Math.floor(tempValueConversion) + 'F';
                     var windValue ='Wind: ' +  data['current']['wind_speed'] + 'mph';
                     var humidityValue ='Humidity: ' + data['current']['humidity'] + '%';
-                    var indexValue ='UV Index: ' + data['current']['uvi'];
+                    UVIndexValue = data['current']['uvi']
+                    var indexValue ='UV Index: ' + UVIndexValue;
 
                     var imageLink = 'http://openweathermap.org/img/wn/' + iconValue + '@2x.png';
                     currentSettingEl.innerHTML = searchInputEl.value + ' ' + today;
+                    
                     currentImgEl.src = imageLink;
 
                     currentTempEl.innerHTML = tempValue;
                     currentWindEl.innerHTML = windValue;
                     currentHumidityEl.innerHTML = humidityValue;
                     currentUVIndexEl.innerHTML = indexValue;
+                    searchInputEl.value = "";
 
                     for(i = 0; i < 5; i ++){
                         var new_date = moment().add(i + 1, 'days').format('MM/DD/YYYY');
@@ -70,13 +75,37 @@ searchButtonEl.addEventListener('click', function (event) {
                         forecastTempEl.item(i).innerHTML = tempValueDaily;
                         forecastWindEl.item(i).innerHTML = windValueDaily;
                         forecastHumidityEl.item(i).innerHTML = humidityValueDaily;
+                        
                     }
+
+                      if(UVIndexValue > 6){
+                            currentUVIndexEl.classList.add("bad");
+                            currentUVIndexEl.classList.remove("moderate");
+                            currentUVIndexEl.classList.remove("good");
+
+                          }
+                      
+                          else if(UVIndexValue > 3){
+  
+                            currentUVIndexEl.classList.add("moderate");
+                            currentUVIndexEl.classList.remove("bad");
+                            currentUVIndexEl.classList.remove("good");
+
+                      
+                          }
+                      
+                          else{
+                            currentUVIndexEl.classList.remove("bad");
+                            currentUVIndexEl.classList.remove("moderate");
+                            currentUVIndexEl.classList.add("good");
+                          }
                 })
             })
         .catch(err => alert("Wrong city name!"));
 
         cityForm();
 })
+
 
 var cities = [];
 
@@ -87,9 +116,10 @@ function renderCities() {
   for (var i = 0; i < cities.length; i++) {
     var city = cities[i];
 
-    var li = document.createElement("li");
+    var li = document.createElement("button");
     li.textContent = city;
-    li.setAttribute("data-index", i);
+    li.setAttribute("data-index", i );
+    li.setAttribute("style", "background-color: none; border: none; display: flex; flexdirection:column; border-radius: 15px; padding : 5px; font-size:20px");
 
     var button = document.createElement("button");
     button.textContent = "Delete";
@@ -122,7 +152,7 @@ function cityForm() {
     return;
   }
   cities.push(cityText);
-  searchInputEl.value = "";
+  
   
   storeCities();
   renderCities();
