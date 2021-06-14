@@ -1,11 +1,10 @@
 * {
     box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
 }
 
 body{
     font-family: 'Poppins', sans-serif;
+
 }
 
 header{
@@ -13,43 +12,50 @@ header{
     font-size: 35px;
     color:white;
     background-image: linear-gradient(to right, rgb(138, 202, 255) , rgb(4, 2, 92));
-
+    padding: 20px;
 }
 
 .container{
     display: flex;
     flex-direction: row;
-    border: 2px black solid;
+    min-width:100%;
 }
 
 .citiesDisplay{
     display: flex;
     flex-direction: row;
-    border: 1px red solid;
 
 }
 
 .weatherDisplay{
     display: flex;
     flex-direction: column;
-    border: 1px blue solid;
 }
 
 .search{
-    border: 2px grey solid;
     display: flex;
     flex-direction: column;
+    padding:10px;
+}
 
+.search h2{
+    font-size: 24px;
 }
 
 .currentWeather{
-    border: 1px green solid;
     display: flex;
     flex-direction: column;
+    margin:10px;
+    padding:10px;
+    border: 2px black solid;
+}
+
+.currentWeather h2{
+    font-size: 30px;
+    font-weight: 900px;
 }
 
 .forecast{
-    border: 1px green solid;
     display: flex;
     flex-direction: row;
 }
@@ -57,4 +63,49 @@ header{
 img{
     width: fit-content;
     height: auto;
+}
+
+form{
+    margin:5px;
+    padding:5px;
+    border-bottom: 2px black solid; ;
+}
+
+#UVIndex{
+    max-width:fit-content;
+    padding:5px;
+    border-radius: 5px;
+    
+}
+
+.bad{
+    background-color: red;
+    border-radius: 5px;
+}
+
+.moderate{
+    background-color: yellow;
+    border-radius: 5px;
+}
+
+.good{
+    background-color: green;
+    border-radius: 5px;
+}
+
+.forecastCard{
+    background-color: rgb(76, 85, 114);
+    color: white;
+    height:250px;
+    width:175px;
+    padding: 10px;
+    margin:10px 20px;
+}
+
+p{
+    padding:5px;
+}
+
+button{
+    margin:5px;
 }
