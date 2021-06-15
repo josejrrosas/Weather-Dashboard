@@ -1,7 +1,7 @@
 var searchInputEl = document.getElementById('inputSearch');
 var searchButtonEl = document.getElementById('searchBtn');
 var addCityEl = document.getElementById('addCity');
-var cityListEl = document.getElementById('cityList');
+var cityListEl =$("#cityList");
 
 
 var currentSettingEl = document.querySelector('#currentSetting');
@@ -21,8 +21,7 @@ var forecastHumidityEl = document.getElementsByClassName('forecastHumidity');
 var forecastCardEl = document.getElementsByClassName('forecastCard');
 
 var myKey = 'e55d093b8b969691fea4b7cda7ecf344';
-$(".weatherDisplay").hide();
-$(".forecast").hide();
+
 
 
 searchButtonEl.addEventListener('click', function (event) {
@@ -32,8 +31,8 @@ searchButtonEl.addEventListener('click', function (event) {
     getWeather();
 })
 
-    function getWeather(){
-    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + searchInputEl.value + '&appid=e55d093b8b969691fea4b7cda7ecf344')
+    function getWeather(cityName){
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=' + cityName + '&appid=e55d093b8b969691fea4b7cda7ecf344')
         .then(response => response.json())
         .then(data => {
             var lat = data['coord']['lat'];
@@ -53,7 +52,7 @@ searchButtonEl.addEventListener('click', function (event) {
                     var indexValue ='UV Index: ' + UVIndexValue;
 
                     var imageLink = 'http://openweathermap.org/img/wn/' + iconValue + '@2x.png';
-                    currentSettingEl.innerHTML = searchInputEl.value + ' ' + today;
+                    currentSettingEl.innerHTML = cityName + ' ' + today;
                     
                     currentImgEl.src = imageLink;
 
@@ -61,7 +60,7 @@ searchButtonEl.addEventListener('click', function (event) {
                     currentWindEl.innerHTML = windValue;
                     currentHumidityEl.innerHTML = humidityValue;
                     currentUVIndexEl.innerHTML = indexValue;
-                    searchInputEl.value = "";
+                    cityName = "";
 
                     for(i = 0; i < 5; i ++){
                         var new_date = moment().add(i + 1, 'days').format('MM/DD/YYYY');
@@ -105,28 +104,37 @@ searchButtonEl.addEventListener('click', function (event) {
                           }
                 })
             })
-        .catch(err => alert("Wrong city name!"));
-
-        cityForm();
+        
+        console.log(searchInputEl.value)
 }
 
 var cities = [];
 
 // The following function renders items in a todo list as <li> elements
 function renderCities() {
-  cityListEl.innerHTML = "";
-
+  // Clear cityList element
+  cityListEl.empty();
+  
+  // Render a new li for each city
   for (var i = 0; i < cities.length; i++) {
     var city = cities[i];
-
-    var li = document.createElement("button");
-    li.textContent = city;
-    li.setAttribute("data-index", i );
-    li.setAttribute("style", "background-color: none; border: none; display: flex; flexdirection:column; border-radius: 15px; padding : 5px; font-size:20px");
-
-    cityListEl.appendChild(li);
+    
+    var li = $("<li>").text(city);
+    li.attr("id","listC");
+    li.attr("data-city", city);
+    li.attr("class", "list-group-item");
+    cityListEl.prepend(li);
   }
-}
+  //Get Response weather for the first city only
+  if (!city){
+    return
+    } 
+    else{
+        getWeather(city)
+    };
+
+}   
+
 
 // This function is being called below and will run when the page loads.
 function init() {
@@ -144,33 +152,28 @@ function storeCities() {
   localStorage.setItem("cities", JSON.stringify(cities));
 }
 
-//  // Add new cities to cities array, clear the input
-function cityForm() {
-  var cityText = searchInputEl.value.trim();
-  if (cityText === "") {
+
+$("#searchBtn").on("click", function(event){
+  event.preventDefault();
+
+// This line will grab the city from the input box
+var city = $("#inputSearch").val().trim();
+
+// Return from function early if submitted city is blank
+if (city === "") {
     return;
-  }
-  cities.push(cityText);
-  
-  
-  storeCities();
-  renderCities();
-};
+}
+//Adding city-input to the city array
+cities.push(city);
+// Store updated cities in localStorage, re-render the list
+storeCities();
+renderCities();
+});
 
-// Add click event to cityList element
-cityList.addEventListener("click", function(event) {
-  var element = event.target;
 
-  if (element.matches("li") === true) {
-    var index = element.parentElement.getAttribute("data-index");
-    cities.splice(index, 1);
-    
-    var thisCity = $(this).attr("data-index");
-    getWeather(thisCity);
-
-    storeCities();
-    renderCities();
-  }
+$(document).on("click", "#listC", function() {
+  var thisCity = $(this).attr("data-city");
+  getWeather(thisCity);
 });
 
 init()
