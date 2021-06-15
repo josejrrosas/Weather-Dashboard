@@ -24,11 +24,15 @@ var myKey = 'e55d093b8b969691fea4b7cda7ecf344';
 $(".weatherDisplay").hide();
 $(".forecast").hide();
 
+
 searchButtonEl.addEventListener('click', function (event) {
     event.preventDefault()
     $(".weatherDisplay").show();
     $(".forecast").show();
+    getWeather();
+})
 
+    function getWeather(){
     fetch('https://api.openweathermap.org/data/2.5/weather?q=' + searchInputEl.value + '&appid=e55d093b8b969691fea4b7cda7ecf344')
         .then(response => response.json())
         .then(data => {
@@ -104,8 +108,7 @@ searchButtonEl.addEventListener('click', function (event) {
         .catch(err => alert("Wrong city name!"));
 
         cityForm();
-})
-
+}
 
 var cities = [];
 
@@ -121,10 +124,6 @@ function renderCities() {
     li.setAttribute("data-index", i );
     li.setAttribute("style", "background-color: none; border: none; display: flex; flexdirection:column; border-radius: 15px; padding : 5px; font-size:20px");
 
-    var button = document.createElement("button");
-    button.textContent = "Delete";
-
-    li.appendChild(button);
     cityListEl.appendChild(li);
   }
 }
@@ -162,9 +161,12 @@ function cityForm() {
 cityList.addEventListener("click", function(event) {
   var element = event.target;
 
-  if (element.matches("button") === true) {
+  if (element.matches("li") === true) {
     var index = element.parentElement.getAttribute("data-index");
     cities.splice(index, 1);
+    
+    var thisCity = $(this).attr("data-index");
+    getWeather(thisCity);
 
     storeCities();
     renderCities();
